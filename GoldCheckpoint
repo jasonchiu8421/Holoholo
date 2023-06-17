@@ -11,28 +11,56 @@ public:
         return name;
     }
 
+    void setName(std::string newName) {
+        name = newName;
+    }
+
     bool getIfUnlocked() const {
         return if_unlocked;
+    }
+
+    void setIfUnlocked(bool newIfUnlocked) {
+        if_unlocked = newIfUnlocked;
     }
 
     double getLongitude() const {
         return longitude;
     }
 
+    void setLongitude(double newLongitude) {
+        longitude = newLongitude;
+    }
+
     double getLatitude() const {
         return latitude;
+    }
+
+    void setLatitude(double newLatitude) {
+        latitude = newLatitude;
     }
 
     int getID() const {
         return ID;
     }
 
+    void setID(int newID) {
+        ID = newID;
+    }
+
     std::string getImage() const {
         return image;
     }
 
+    void setImage(std::string newImage) {
+        image = newImage;
+    }
+
     GoldBook& getGoldBook() const {
         return goldBook;
+    }
+
+    void setGoldBook(GoldBook& newGoldBook) {
+        goldBook = newGoldBook;
     }
 
 private:
