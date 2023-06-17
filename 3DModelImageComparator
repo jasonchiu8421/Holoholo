@@ -1,0 +1,39 @@
+bool compare_with_3d_model(std::vector<cv::KeyPoint> photo_keypoints, cv::Mat photo_descriptors, std::string model_file, float match_threshold) {
+  // Load point cloud from file
+  pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PCDReader reader;
+  reader.read(model_file, *point_cloud);
+
+  // Extract features and descriptors from point cloud
+  cv::Mat model_descriptors;
+  std::vector<cv::KeyPoint> model_keypoints;
+  cv::Ptr<cv::Feature2D> feature_detector = cv::ORB::create();
+  cv::Ptr<cv::DescriptorMatcher> descriptor_matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
+  feature_detector->detect(point_cloud, model_keypoints);
+  descriptor_matcher->match(point_cloud, model_descriptors);
+
+  // Match features between user-taken photo and 3D model
+  std::vector<cv::DMatch> matches;
+  descriptor_matcher->match(photo_descriptors, model_descriptors, matches);
+
+  // Compute number of matches and check against threshold
+  int num_matches = matches.size();
+  int min_matches = 10;
+  if (num_matches >= min_matches) {
+    // Compute average distance between matched features
+    float avg_distance = 0;
+    for (int i = 0; i < num_matches; i++) {
+      avg_distance += matches[i].distance;
+    }
+    avg_distance /= num_matches;
+
+    // Check if average distance is below threshold
+    if (avg_distance < match_threshold) {
+      // User-taken photo matches 3D model
+      return true;
+    }
+  }
+
+  // User-taken photo does not match 3D model
+  return false;
+}
