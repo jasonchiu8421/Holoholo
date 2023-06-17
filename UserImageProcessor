@@ -1,0 +1,10 @@
+void process_user_photo(std::string photo_file, std::vector<cv::KeyPoint>& keypoints, cv::Mat& descriptors) {
+  // Load user-taken photo
+  cv::Mat img = cv::imread(photo_file, cv::IMREAD_COLOR);
+
+  // Extract features and descriptors using ORB feature detector and descriptor matcher
+  cv::Ptr<cv::Feature2D> feature_detector = cv::ORB::create();
+  cv::Ptr<cv::DescriptorMatcher> descriptor_matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
+  feature_detector->detect(img, keypoints);
+  descriptor_matcher->match(img, descriptors);
+}
