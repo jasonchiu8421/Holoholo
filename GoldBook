@@ -1,29 +1,47 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "GoldCheckpoint.h"
 
 class GoldBook {
 public:
-    GoldBook(int id, std::string name) : ID(id), name(name) {}
-
-    void addGoldCheckpoint(int GoldCheckpoint) {
-        Goldcheckpoints.push_back(GoldCheckpoint);
-    }
+    GoldBook(int ID, std::string name) : ID(ID), name(name) {}
 
     int getID() const {
         return ID;
+    }
+
+    void setID(int newID) {
+        ID = newID;
     }
 
     std::string getName() const {
         return name;
     }
 
-    std::vector<int> getGoldCheckpoints() const {
-        return GoldCheckpoints;
+    void setName(std::string newName) {
+        name = newName;
+    }
+
+    std::vector<GoldCheckpoint>& getCheckpoints() {
+        return checkpoints;
+    }
+
+    void addCheckpoint(const GoldCheckpoint& checkpoint) {
+        checkpoints.push_back(checkpoint);
+    }
+
+    void removeCheckpoint(int checkpointID) {
+        for (auto it = checkpoints.begin(); it != checkpoints.end(); ++it) {
+            if (it->getID() == checkpointID) {
+                checkpoints.erase(it);
+                break;
+            }
+        }
     }
 
 private:
     int ID;
     std::string name;
-    std::vector<int> GoldCheckpoints;
+    std::vector<GoldCheckpoint> checkpoints;
 };
