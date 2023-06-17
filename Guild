@@ -2,18 +2,44 @@
 #include <vector>
 #include <unordered_map>
 
+class VirtualItem {
+public:
+    VirtualItem(std::string name, int cost) {
+        m_name = name;
+        m_cost = cost;
+    }
+
+    std::string getName() const {
+        return m_name;
+    }
+
+    int getCost() const {
+        return m_cost;
+    }
+
+private:
+    std::string m_name;
+    int m_cost;
+};
+
 class Guild {
 public:
-    // Constructor that initializes the guild name and creator ID
+    enum class Role {
+        Leader,
+        Officer,
+        Member
+    };
+
     Guild(std::string name, std::string creatorId) {
         m_name = name;
         m_creatorId = creatorId;
         m_goldBalance = 0;
     }
 
-    // Functions to add or remove member IDs from the guild
     void addMember(std::string memberId) {
         m_memberIds.push_back(memberId);
+        m_memberBalances[memberId] = 0;
+        m_memberRoles[memberId] = Role::Member;
     }
 
     void removeMember(std::string memberId) {
@@ -23,9 +49,10 @@ public:
                 break;
             }
         }
+        m_memberBalances.erase(memberId);
+        m_memberRoles.erase(memberId);
     }
 
-    // Function to check if a user is a member of the guild
     bool isMember(std::string userId) const {
         for (auto it = m_memberIds.begin(); it != m_memberIds.end(); ++it) {
             if (*it == userId) {
@@ -35,32 +62,26 @@ public:
         return false;
     }
 
-    // Function to get the number of members in the guild
     int getNumMembers() const {
         return m_memberIds.size();
     }
 
-    // Function to get the guild name
     std::string getName() const {
         return m_name;
     }
 
-    // Function to get the ID of the guild creator
     std::string getCreatorId() const {
         return m_creatorId;
     }
 
-    // Function to get the guild's current gold balance
     int getGoldBalance() const {
         return m_goldBalance;
     }
 
-    // Function to add gold to the guild's balance
     void addGold(int amount) {
         m_goldBalance += amount;
     }
 
-    // Function to remove gold from the guild's balance
     bool removeGold(int amount) {
         if (m_goldBalance >= amount) {
             m_goldBalance -= amount;
@@ -70,99 +91,121 @@ public:
         }
     }
 
+    std::vector<VirtualItem> getVirtualItems() const {
+        return m_virtualItems;
+    }
+
+    void addVirtualItem(VirtualItem item) {
+        m_virtualItems.push_back(item);
+    }
+
+    bool removeVirtualItem(std::string itemName) {
+        for (auto it = m_virtualItems.begin(); it != m_virtualItems.end(); ++it) {
+            if (it->getName() == itemName) {
+                m_virtualItems.erase(it);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool buyVirtualItem(std::string memberId, std::string itemName) {
+        if (!isMember(memberId)) {
+            return false;
+        }
+        for (auto it = m_virtualItems.begin(); it != m_virtualItems.end(); ++it) {
+            if (it->getName() == itemName) {
+                int cost = it->getCost();
+                if (m_memberBalances[memberId] >= cost) {
+                    m_memberBalances[memberId] -= cost;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    int getMemberBalance(std::string memberId) const {
+        if (m_memberBalances.count(memberId) == 0) {
+            return 0;
+        } else {
+            return m_memberBalances.at(memberId);
+        }
+    }
+
+    bool addMemberBalance(std::string memberId, int amount) {
+        if (m_memberBalances.count(memberId) == 0) {
+            return false;
+        } else {
+            m_memberBalances[memberId] += amount;
+            return true;
+        }
+    }
+
+    Role getMemberRole(std::string memberId) const {
+        if (m_memberRoles.count(memberId) == 0) {
+            return Role::Member;
+        } else {
+            return m_memberRoles.at(memberId);
+        }
+    }
+
+    bool setMemberRole(std::string memberId, Role role) {
+        if (m_memberRoles.count(memberId) == 0) {
+            return false;
+        } else {
+            m_memberRoles[memberId] = role;
+            return true;
+        }
+    }
+
 private:
-    std::string m_name;  // Name of the guild
-    std::string m_creatorId;  // ID of the guild creator
-    std::vector<std::string> m_memberIds;  // IDs of the guild members
-    int m_goldBalance;  // Current gold balance of the guild
+    std::string m_name;
+    std::string m_creatorId;
+    std::vector<std::string> m_memberIds;
+    std::unordered_map<std::string, int> m_memberBalances;
+    std::unordered_map<std::string, Role> m_memberRoles;
+    int m_goldBalance;
+    std::vector<VirtualItem> m_virtualItems;
 };
 
 class GuildSystem {
 public:
-    // Constructor that initializes the HOLO coin value and total supply
     GuildSystem(float holoCoinValue) {
-        m_holoCoinValue = holoCoinValue;
+        m_holoCoinValue =holoCoinValue;
     }
 
-    // Function to create a new guild
-    bool createGuild(std::string name, std::string creatorId) {
-        if (m_userBalances.count(creatorId) == 0 || m_userBalances[creatorId] < 50) {
-            // Insufficient balance to create guild
-            return false;
-        } else {
-            // Deduct 50 gold from creator and create new guild
-            m_userBalances[creatorId] -= 50;
-            Guild newGuild(name, creatorId);
-            m_guilds.push_back(newGuild);
-            return true;
-        }
+    void createGuild(std::string name, std::string creatorId) {
+        Guild guild(name, creatorId);
+        m_guilds.push_back(guild);
     }
 
-    // Function to get the number of guilds in the system
-    int getNumGuilds() const {
-        return m_guilds.size();
-    }
-
-    // Function to get a guild by index
-    Guild getGuild(int index) const {
-        return m_guilds[index];
-    }
-
-    // Function to get a guild by name
-    Guild getGuildByName(std::string name) const {
+    bool dissolveGuild(std::string guildName) {
         for (auto it = m_guilds.begin(); it != m_guilds.end(); ++it) {
-            if (it->getName() == name) {
-                return *it;
+            if (it->getName() == guildName) {
+                m_guilds.erase(it);
+                return true;
             }
         }
-        // Return an empty guild if no matching guild is found
-        return ("Guild is not found"); 
+        return false;
     }
 
-    // Function to get the guilds that a user is a member of
-    std::vector<Guild> getGuildsForUser(std::string userId) const {
-        std::vector<Guild> userGuilds;
+    Guild* getGuild(std::string guildName) {
         for (auto it = m_guilds.begin(); it != m_guilds.end(); ++it) {
-            if (it->isMember(userId)) {
-                userGuilds.push_back(*it);
+            if (it->getName() == guildName) {
+                return &(*it);
             }
         }
-        return userGuilds;
+        return nullptr;
     }
 
-    // Function to add a user to a guild
-    bool addMemberToGuild(std::string userId, std::string guildName) {
-        Guild guild = getGuildByName(guildName);
-        if (guild.getName() == "") {
-            // Guild not found
-            return false;
-        } else if (guild.isMember(userId)) {
-            // User is already a member of the guild
-            return false;
-        } else {
-            // Add user to guild            guild.addMember(userId);
-            return true;
-        }
-    }
-
-    // Function to remove a user from a guild
-    bool removeMemberFromGuild(std::string userId, std::string guildName) {
-        Guild guild = getGuildByName(guildName);
-        if (guild.getName() == "") {
-            // Guild not found
-            return false;
-        } else if (!guild.isMember(userId)) {
-            // User is not a member of the guild
-            return false;
-        } else {
-            // Remove user from guild
-            guild.removeMember(userId);
-            return true;
-        }
+    std::vector<Guild> getAllGuilds() const {
+        return m_guilds;
     }
 
 private:
-    float m_holoCoinValue;  // Value of each HOLO coin
-    std::unordered_map<std::string, int> m_userBalances;  // Map of user IDs to HOLO coin balances
-    std::vector<Guild> m_guilds;  // Vector of guilds in the system
+    float m_holoCoinValue;
+    std::vector<Guild> m_guilds;
 };
