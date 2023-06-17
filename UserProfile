@@ -6,7 +6,7 @@ public:
         Leader,
         Officer,
         Member,
-        Builder,
+        None,
     };
 
     UserProfile(std::string name, std::string id, std::string skin) {
