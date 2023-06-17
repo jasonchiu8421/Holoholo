@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+#include "GoldBook.h"
+
+class GoldCheckpoint {
+public:
+    GoldCheckpoint(std::string name, bool if_unlocked, double longitude, double latitude, int ID, std::string image, GoldBook& goldBook) :
+        name(name), if_unlocked(if_unlocked), longitude(longitude), latitude(latitude), ID(ID), image(image), goldBook(goldBook) {}
+
+    std::string getName() const {
+        return name;
+    }
+
+    bool getIfUnlocked() const {
+        return if_unlocked;
+    }
+
+    double getLongitude() const {
+        return longitude;
+    }
+
+    double getLatitude() const {
+        return latitude;
+    }
+
+    int getID() const {
+        return ID;
+    }
+
+    std::string getImage() const {
+        return image;
+    }
+
+    GoldBook& getGoldBook() const {
+        return goldBook;
+    }
+
+private:
+    std::string name;
+    bool if_unlocked;
+    double longitude;
+    double latitude;
+    int ID;
+    std::string image;
+    GoldBook& goldBook;
+};
