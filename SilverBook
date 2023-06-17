@@ -1,0 +1,47 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include "SilverCheckpoint.h"
+
+class SilverBook {
+public:
+    SilverBook(int ID, std::string name) : ID(ID), name(name) {}
+
+    int getID() const {
+        return ID;
+    }
+
+    void setID(int newID) {
+        ID = newID;
+    }
+
+    std::string getName() const {
+        return name;
+    }
+
+    void setName(std::string newName) {
+        name = newName;
+    }
+
+    std::vector<SilverCheckpoint>& getCheckpoints() {
+        return checkpoints;
+    }
+
+    void addCheckpoint(const SilverCheckpoint& checkpoint) {
+        checkpoints.push_back(checkpoint);
+    }
+
+    void removeCheckpoint(int checkpointID) {
+        for (auto it = checkpoints.begin(); it != checkpoints.end(); ++it) {
+            if (it->getID() == checkpointID) {
+                checkpoints.erase(it);
+                break;
+            }
+        }
+    }
+
+private:
+    int ID;
+    std::string name;
+    std::vector<SilverCheckpoint> checkpoints;
+};
