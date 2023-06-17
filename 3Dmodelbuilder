@@ -1,0 +1,38 @@
+void build_3d_model(std::vector<std::string> image_files, std::string output_file) {
+  // Load input images
+  std::vector<cv::Mat> images;
+  for (int i = 0; i < image_files.size(); i++) {
+    cv::Mat img = cv::imread(image_files[i], cv::IMREAD_COLOR);
+    if (!img.empty()) {
+      images.push_back(img);
+    }
+  }
+
+  // Compute 3D point cloud using OpenCV and PCL
+  cv::Ptr<cv::Feature2D> feature_detector = cv::ORB::create();
+  cv::Ptr<cv::DescriptorMatcher> descriptor_matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
+  std::vector<cv::KeyPoint> keypoints;
+  cv::Mat descriptors;
+  feature_detector->detect(images, keypoints);
+  descriptor_matcher->match(images, descriptors);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr point_cloud(new pcl::PointCloud<pcl::PointXYZ>);
+  for (int i = 0; i < images.size(); i++) {
+    // Compute camera pose for each image
+    cv::Mat camera_matrix, distortion_coefficients;
+    std::vector<cv::Point3d> object_points;
+    std::vector<cv::Point2d> image_points;
+    cv::Mat rvec, tvec;
+    cv::solvePnP(object_points, image_points, camera_matrix, distortion_coefficients, rvec, tvec);
+
+    // Triangulate 3D points from 2D image points
+    cv::Matx34d proj_matrix(rvec, tvec);
+    cv::Matx31d homogeneous_point;
+    cv::triangulatePoints(cv::Matx33d::eye(), cv::Matx34d::zeros(), cv::Matx33d::eye(), proj_matrix, keypoints, homogeneous_point);
+    cv::Matx31d point(homogeneous_point(0) / homogeneous_point(3), homogeneous_point(1) / homogeneous_point(3), homogeneous_point(2) / homogeneous_point(3));
+    point_cloud->push_back(pcl::PointXYZ(point(0), point(1), point(2)));
+  }
+
+  // Save point cloud to file
+  pcl::PCDWriter writer;
+  writer.write(output_file, *point_cloud);
+}
