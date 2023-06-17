@@ -1,0 +1,54 @@
+#include <string>
+
+class UserProfile {
+public:
+    enum class GuildPosition {
+        None,
+        Member,
+        Officer,
+        Leader
+    };
+
+    UserProfile(std::string name, std::string id, std::string skin) {
+        m_name = name;
+        m_id = id;
+        m_skin = skin;
+        m_guildName = "";
+        m_guildPosition = GuildPosition::None;
+    }
+
+    std::string getName() const {
+        return m_name;
+    }
+
+    std::string getId() const {
+        return m_id;
+    }
+
+    std::string getSkin() const {
+        return m_skin;
+    }
+
+    std::string getGuildName() const {
+        return m_guildName;
+    }
+
+    void setGuildName(std::string guildName) {
+        m_guildName = guildName;
+    }
+
+    GuildPosition getGuildPosition() const {
+        return m_guildPosition;
+    }
+
+    void setGuildPosition(GuildPosition position) {
+        m_guildPosition = position;
+    }
+
+private:
+    std::string m_name;
+    std::string m_id;
+    std::string m_skin;
+    std::string m_guildName;
+    GuildPosition m_guildPosition;
+};
