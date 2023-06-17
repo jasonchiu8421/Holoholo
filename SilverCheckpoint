@@ -1,0 +1,74 @@
+#include <iostream>
+#include <string>
+#include "SilverBook.h"
+
+class SilverCheckpoint {
+public:
+    SilverCheckpoint(std::string name, bool if_unlocked, double longitude, double latitude, int ID, std::string image, SilverBook& silverBook) :
+        name(name), if_unlocked(if_unlocked), longitude(longitude), latitude(latitude), ID(ID), image(image), silverBook(silverBook) {}
+
+    std::string getName() const {
+        return name;
+    }
+
+    void setName(std::string newName) {
+        name = newName;
+    }
+
+    bool getIfUnlocked() const {
+        return if_unlocked;
+    }
+
+    void setIfUnlocked(bool newIfUnlocked) {
+        if_unlocked = newIfUnlocked;
+    }
+
+    double getLongitude() const {
+        return longitude;
+    }
+
+    void setLongitude(double newLongitude) {
+        longitude = newLongitude;
+    }
+
+    double getLatitude() const {
+        return latitude;
+    }
+
+    void setLatitude(double newLatitude) {
+        latitude = newLatitude;
+    }
+
+    int getID() const {
+        return ID;
+    }
+
+    void setID(int newID) {
+        ID = newID;
+    }
+
+    std::string getImage() const {
+        return image;
+    }
+
+    void setImage(std::string newImage) {
+        image = newImage;
+    }
+
+    SilverBook& getSilverBook() const {
+        return silverBook;
+    }
+
+    void setSilverBook(SilverBook& newSilverBook) {
+        silverBook = newSilverBook;
+    }
+
+private:
+    std::string name;
+    bool if_unlocked;
+    double longitude;
+    double latitude;
+    int ID;
+    std::string image;
+    SilverBook& silverBook;
+};
