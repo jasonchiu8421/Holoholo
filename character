@@ -1,0 +1,39 @@
+#include <string>
+
+class VirtualCharacter {
+public:
+    VirtualCharacter(std::string skin, std::string face, std::string cloth) {
+        m_skin = skin;
+        m_face = face;
+        m_cloth = cloth;
+    }
+
+    std::string getSkin() const {
+        return m_skin;
+    }
+
+    std::string getFace() const {
+        return m_face;
+    }
+
+    std::string getCloth() const {
+        return m_cloth;
+    }
+
+    void setSkin(std::string skin) {
+        m_skin = skin;
+    }
+
+    void setFace(std::string face) {
+        m_face = face;
+    }
+
+    void setCloth(std::string cloth) {
+        m_cloth = cloth;
+    }
+
+private:
+    std::string m_skin;
+    std::string m_face;
+    std::string m_cloth;
+};
