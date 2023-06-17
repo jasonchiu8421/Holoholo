@@ -28,7 +28,6 @@ public:
         Leader,
         Officer,
         Member,
-        Builder,
     };
 
     Guild(std::string name, std::string creatorId) {
