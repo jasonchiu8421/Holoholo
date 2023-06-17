@@ -116,7 +116,7 @@ public:
             }
         }
         // Return an empty guild if no matching guild is found
-        return Guild("", "");
+        return ("Guild is not found"); 
     }
 
     // Function to get the guilds that a user is a member of
