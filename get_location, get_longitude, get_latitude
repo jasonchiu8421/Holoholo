@@ -20,10 +20,6 @@ public:
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         double accuracy = location.getAccuracy();
-
-        __android_log_print(ANDROID_LOG_INFO, "LocationListener", "Latitude: %f", latitude);
-        __android_log_print(ANDROID_LOG_INFO, "LocationListener", "Longitude: %f", longitude);
-        __android_log_print(ANDROID_LOG_INFO, "LocationListener", "Accuracy: %f", accuracy);
     }
 };
 
@@ -32,4 +28,16 @@ void get_location() {
     android::sp<LocationListener> locationListener = new LocationListener();
 
     locationManager->requestLocationUpdates(android::LocationManager::GPS_PROVIDER, 0, 0, locationListener);
+}
+
+double get_longitude() {
+    LocationListener locationListener;
+    get_location(locationListener);
+    return locationListener.getLongitude();
+}
+
+double get_latitude() {
+    LocationListener locationListener;
+    get_location(locationListener);
+    return locationListener.getLatitude();
 }
