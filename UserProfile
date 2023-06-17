@@ -3,10 +3,11 @@
 class UserProfile {
 public:
     enum class GuildPosition {
-        None,
+        Builder,
         Member,
         Officer,
-        Leader
+        Leader,
+        
     };
 
     UserProfile(std::string name, std::string id, std::string skin) {
