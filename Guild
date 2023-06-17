@@ -27,7 +27,8 @@ public:
     enum class Role {
         Leader,
         Officer,
-        Member
+        Member,
+        Builder,
     };
 
     Guild(std::string name, std::string creatorId) {
