@@ -6,7 +6,7 @@
 #include "GoldCheckpoint.h"
 
 bool completeGoldBook(const GoldBook& goldBook) {
-    if (!goldBook.ig_complete){
+    if (!goldBook.getIf_complete){
         for (const auto& checkpoint : goldBook.getCheckpoints()) {
             if (!checkpoint.getIfUnlocked()) {
                 return false;
