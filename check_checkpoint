@@ -1,3 +1,5 @@
+//should be silver checkpoint instead, return smount of Holocoins awarded
+
 int check_checkpoint(GoldCheckpoint name, string photo_file) {
     if (!name.if_unlocked) {
         std::vector<cv::KeyPoint> photo_keypoints;
