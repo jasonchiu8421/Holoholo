@@ -14,7 +14,7 @@ public:
             m_items.push_back(item);
             return true;
         } else {
-            std::cout << "Backpack is full.\n";
+            std::cout << "Backpack is full!\n";
             return false;
         }
     }
