@@ -2,26 +2,6 @@
 #include <vector>
 #include <unordered_map>
 
-class VirtualItem {
-public:
-    VirtualItem(std::string name, int cost) {
-        m_name = name;
-        m_cost = cost;
-    }
-
-    std::string getName() const {
-        return m_name;
-    }
-
-    int getCost() const {
-        return m_cost;
-    }
-
-private:
-    std::string m_name;
-    int m_cost;
-};
-
 class Guild {
 public:
     enum class Role {
@@ -74,23 +54,6 @@ public:
         return m_creatorId;
     }
 
-    int getGoldBalance() const {
-        return m_goldBalance;
-    }
-
-    void addGold(int amount) {
-        m_goldBalance += amount;
-    }
-
-    bool removeGold(int amount) {
-        if (m_goldBalance >= amount) {
-            m_goldBalance -= amount;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     std::vector<VirtualItem> getVirtualItems() const {
         return m_virtualItems;
     }
@@ -127,22 +90,6 @@ public:
         return false;
     }
 
-    int getMemberBalance(std::string memberId) const {
-        if (m_memberBalances.count(memberId) == 0) {
-            return 0;
-        } else {
-            return m_memberBalances.at(memberId);
-        }
-    }
-
-    bool addMemberBalance(std::string memberId, int amount) {
-        if (m_memberBalances.count(memberId) == 0) {
-            return false;
-        } else {
-            m_memberBalances[memberId] += amount;
-            return true;
-        }
-    }
 
     Role getMemberRole(std::string memberId) const {
         if (m_memberRoles.count(memberId) == 0) {
