@@ -1,4 +1,4 @@
-//Should be silver book instead
+//Should be silver book instead, return amount of Skin Token awarded
 
 #include <iostream>
 #include <string>
