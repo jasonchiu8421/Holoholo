@@ -23,6 +23,9 @@ public:
         name = newName;
     }
 
+    void getIf_completed() const{
+        return if_completed;
+    }
     
     void setIf_complete(bool newIf_complete) {
         if_complete = newIf_complete;
@@ -49,5 +52,5 @@ private:
     int ID;
     std::string name;
     std::vector<SilverCheckpoint> checkpoints;
-    bool if_complete;
+    bool if_completed;
 };
