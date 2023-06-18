@@ -1,4 +1,4 @@
-//return amount of Skin Token awarded
+/return amount of Skin Token awarded
 
 #include <iostream>
 #include <string>
@@ -12,5 +12,5 @@ int completeSilverBook(const SilverBook& silverBook) {
         }
     }
     return 150;
-    silverBook.if_complete = true;
+    silverBook.setIf_complete(true);
 }
