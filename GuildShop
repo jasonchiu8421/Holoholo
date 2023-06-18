@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <map>
+#include "user_profile.h"
 
 class GuildShop {
 public:
@@ -22,12 +22,13 @@ public:
         m_items.push_back({ name, price });
     }
 
-    bool buyItem(const std::string& itemName, int& holoCoins) {
+    bool buyItem(const std::string& itemName, int& holoCoins, std::vector<Item>& backpack) {
         for (const auto& item : m_items) {
             if (item.name == itemName) {
                 if (holoCoins >= item.price) {
                     holoCoins -= item.price;
-                    std::cout << "You bought " << item.name << " for " << item.price << " Holo Coins.\n";
+                    backpack.push_back(item);
+                    std::cout << "You bought " << item.name << " for " << item.price << " Holo Coins. Added to backpack.\n";
                     return true;
                 } else {
                     std::cout << "You don't have enough Holo Coins to buy " << item.name << " (price: " << item.price << ").\n";
