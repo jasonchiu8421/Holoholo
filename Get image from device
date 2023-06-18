@@ -1,0 +1,59 @@
+#include <jni.h>
+#include <android/log.h>
+#include <android/camera.h>
+#include <fstream>
+
+#define LOG_TAG "CameraTest"
+
+extern "C" JNIEXPORT jint JNICALL Java_com_example_cameratest_MainActivity_captureImage(JNIEnv* env, jobject obj, jstring fileName) {
+    const char* fileNameCStr = env->GetStringUTFChars(fileName, NULL);
+
+    // Get a reference to the default camera.
+    camera_device_t* cameraDevice;
+    camera_module_t* cameraModule;
+    hw_get_module(CAMERA_HARDWARE_MODULE_ID, (const hw_module_t**)&cameraModule);
+    cameraModule->common.methods->open((const hw_module_t*)cameraModule, CAMERA_FACING_BACK, (hw_device_t**)&cameraDevice);
+
+    // Create a new surface for preview display.
+    ANativeWindow* window = ANativeWindow_fromSurface(env, surface);
+    camera_device_preview_t* previewDevice = (camera_device_preview_t*)cameraDevice;
+    previewDevice->ops->set_preview_window(previewDevice, window);
+
+    // Prepare the camera for image capture.
+    camera_device_t* cameraDeviceRaw = (camera_device_t*)cameraDevice;
+    camera_device_ops_t* cameraOps = cameraDeviceRaw->ops;
+    cameraOps->start_preview(cameraDeviceRaw);
+
+    // Capture an image.
+    camera_ops_capture_image(cameraDeviceRaw, cameraOps, [&](int status, int /*frame_number*/, const camera_buffer_t* /*buffer*/) {
+        if (status != 0) {
+            __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, "Error capturing image: %d", status);
+            return;
+        }
+
+        // Get the captured image data.
+        camera_frame_metadata_t metadata;
+        camera_buffer_t buffer;
+        camera_request_memory_t requestMemory = {0};
+        camera_memory_t* memory = requestMemory.allocate(requestMemory.cookie, buffer.width * buffer.height * 3);
+        cameraOps->get_frame_metadata(cameraDeviceRaw, &metadata);
+        cameraOps->get_next_frame(cameraDeviceRaw, &buffer);
+        memcpy(memory->data, buffer.data, buffer.width * buffer.height * 3);
+
+        // Save the image data to a file.
+        std::ofstream outFile(fileNameCStr, std::ios::binary);
+        outFile.write((const char*)memory->data, buffer.width * buffer.height * 3);
+        outFile.close();
+        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Image saved to %s", fileNameCStr);
+
+        // Clean up.
+        requestMemory.release(requestMemory.cookie, memory);
+        ANativeWindow_release(window);
+        cameraOps->stop_preview(cameraDeviceRaw);
+        cameraOps->close_camera(cameraDeviceRaw);
+    });
+
+    env->ReleaseStringUTFChars(fileName, fileNameCStr);
+
+    return 0;
+}
