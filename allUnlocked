@@ -1,0 +1,13 @@
+#include <iostream>
+#include <string>
+#include "GoldBook.h"
+#include "GoldCheckpoint.h"
+
+bool allUnlocked(const GoldBook& goldBook) {
+    for (const auto& checkpoint : goldBook.getCheckpoints()) {
+        if (!checkpoint.getIfUnlocked()) {
+            return false;
+        }
+    }
+    return true;
+}
