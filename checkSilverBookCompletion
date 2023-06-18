@@ -1,0 +1,15 @@
+//return amount of Skin Token awarded
+
+#include <iostream>
+#include <string>
+#include "SilverBook.h"
+#include "SilverCheckpoint.h"
+
+int checkSilverBookCompletion(const SilverBook& silverBook) {
+    for (const auto& checkpoint : silverBook.getCheckpoints()) {
+        if (!checkpoint.getIfUnlocked()) {
+            return 0;
+        }
+    }
+    return 150;
+}
