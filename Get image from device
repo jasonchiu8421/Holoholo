@@ -41,10 +41,10 @@ extern "C" JNIEXPORT jint JNICALL Java_com_example_cameratest_MainActivity_captu
         memcpy(memory->data, buffer.data, buffer.width * buffer.height * 3);
 
         // Save the image data to a file.
-        std::ofstream outFile(fileNameCStr, std::ios::binary);
+        std::ofstream outFile(photo_file, std::ios::binary);
         outFile.write((const char*)memory->data, buffer.width * buffer.height * 3);
         outFile.close();
-        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Image saved to %s", fileNameCStr);
+        __android_log_print(ANDROID_LOG_INFO, LOG_TAG, "Image saved to %s", photo_file);
 
         // Clean up.
         requestMemory.release(requestMemory.cookie, memory);
@@ -53,7 +53,7 @@ extern "C" JNIEXPORT jint JNICALL Java_com_example_cameratest_MainActivity_captu
         cameraOps->close_camera(cameraDeviceRaw);
     });
 
-    env->ReleaseStringUTFChars(fileName, fileNameCStr);
+    env->ReleaseStringUTFChars(fileName, photo_file);
 
     return 0;
 }
