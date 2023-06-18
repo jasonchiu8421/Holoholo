@@ -1,0 +1,18 @@
+//return if GoldBook is completed
+
+#include <iostream>
+#include <string>
+#include "GoldBook.h"
+#include "GoldCheckpoint.h"
+
+bool completeGoldBook(const GoldBook& goldBook) {
+    if (!goldBook.ig_complete){
+        for (const auto& checkpoint : goldBook.getCheckpoints()) {
+            if (!checkpoint.getIfUnlocked()) {
+                return false;
+            }
+        }
+        return true;
+        goldBook.if_complete = true;
+    }
+}
