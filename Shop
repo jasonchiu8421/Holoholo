@@ -25,7 +25,7 @@ public:
         m_items[category].push_back({ name, price });
     }
 
-    bool buyItem(const std::string& itemName, int& skinTokens) {
+    bool buyItem(const std::string& itemName, int& skinTokens, std::vector<Item>& backpack) {
         for (const auto& categoryPair : m_items) {
             const auto& category = categoryPair.first;
             const auto& items = categoryPair.second;
@@ -33,7 +33,8 @@ public:
                 if (item.name == itemName) {
                     if (skinTokens >= item.price) {
                         skinTokens -= item.price;
-                        std::cout << "You bought " << item.name << " (" << category << ") for " << item.price << " Skin Tokens.\n";
+                        backpack.push_back(item);
+                        std::cout << "You bought " << item.name << " (" << category << ") for " << item.price << " Skin Tokens. Added to backpack.\n";
                         return true;
                     } else {
                         std::cout << "You don't have enough Skin Tokens to buy " << item.name << " (" << category << ") (price: " << item.price << ").\n";
