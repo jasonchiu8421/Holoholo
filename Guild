@@ -54,25 +54,6 @@ public:
         return m_creatorId;
     }
 
-    std::vector<VirtualItem> getVirtualItems() const {
-        return m_virtualItems;
-    }
-
-    void addVirtualItem(VirtualItem item) {
-        m_virtualItems.push_back(item);
-    }
-
-    bool removeVirtualItem(std::string itemName) {
-        for (auto it = m_virtualItems.begin(); it != m_virtualItems.end(); ++it) {
-            if (it->getName() == itemName) {
-                m_virtualItems.erase(it);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     Role getMemberRole(std::string memberId) const {
         if (m_memberRoles.count(memberId) == 0) {
             return Role::Member;
