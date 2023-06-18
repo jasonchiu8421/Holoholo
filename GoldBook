@@ -24,7 +24,7 @@ public:
     }
 
     void setIf_complete(bool newIf_complete) {
-        If_complete = newIf_complete;
+        if_complete = newIf_complete;
     }
 
     std::vector<GoldCheckpoint>& getCheckpoints() {
