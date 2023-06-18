@@ -22,6 +22,7 @@ public:
     void buyItem(const std::string& itemName, Shop& shop) {
         shop.buyItem(itemName, m_skinTokens, m_backpack);
     }
+    
     void printBackpackItems() const {
         std::cout << "Backpack Items:\n";
         for (const auto& item : m_backpack) {
