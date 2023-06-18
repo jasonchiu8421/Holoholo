@@ -1,4 +1,7 @@
+#include <iostream>
 #include <string>
+#include <vector>
+#include "guild_shop.h"
 
 class UserProfile {
 public:
@@ -9,12 +12,18 @@ public:
         None,
     };
 
-    UserProfile(std::string name, std::string id, std::string skin) {
-        m_name = name;
-        m_id = id;
-        m_skin = skin;
-        m_guildName = "";
-        m_guildPosition = GuildPosition::None;
+    UserProfile(std::string name, std::string id, std::string skin, int holoCoins = 0)
+        : m_name(name), m_id(id), m_skin(skin), m_holoCoins(holoCoins) {}
+
+    void buyItem(const std::string& itemName, GuildShop& shop) {
+        shop.buyItem(itemName, m_holoCoins, m_backpack);
+    }
+
+    void printBackpackItems() const {
+        std::cout << "Backpack Items:\n";
+        for (const auto& item : m_backpack) {
+            std::cout << "  - " << item.name << " (" << item.price << " Holo Coins)\n";
+        }
     }
 
     std::string getName() const {
@@ -27,6 +36,14 @@ public:
 
     std::string getSkin() const {
         return m_skin;
+    }
+
+    int getHoloCoins() const {
+        return m_holoCoins;
+    }
+
+    void setHoloCoins(int coins) {
+        m_holoCoins = coins;
     }
 
     std::string getGuildName() const {
@@ -49,6 +66,8 @@ private:
     std::string m_name;
     std::string m_id;
     std::string m_skin;
+    int m_holoCoins;
+    std::vector<GuildShop::Item> m_backpack;
     std::string m_guildName;
     GuildPosition m_guildPosition;
 };
