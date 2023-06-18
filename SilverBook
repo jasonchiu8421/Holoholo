@@ -5,7 +5,7 @@
 
 class SilverBook {
 public:
-    SilverBook(int ID, std::string name) : ID(ID), name(name) {}
+    SilverBook(int ID, std::string name, bool if_complete) : ID(ID), name(name), if_complete(if_complete) {}
 
     int getID() const {
         return ID;
@@ -21,6 +21,11 @@ public:
 
     void setName(std::string newName) {
         name = newName;
+    }
+
+    
+    void setIf_complete(bool newIf_complete) {
+        if_complete = newIf_complete;
     }
 
     std::vector<SilverCheckpoint>& getCheckpoints() {
@@ -44,4 +49,5 @@ private:
     int ID;
     std::string name;
     std::vector<SilverCheckpoint> checkpoints;
+    bool if_complete;
 };
