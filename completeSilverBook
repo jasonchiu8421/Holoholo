@@ -5,7 +5,7 @@
 #include "SilverBook.h"
 #include "SilverCheckpoint.h"
 
-int checkSilverBookCompletion(const SilverBook& silverBook) {
+int completeSilverBook(const SilverBook& silverBook) {
     for (const auto& checkpoint : silverBook.getCheckpoints()) {
         if (!checkpoint.getIfUnlocked()) {
             return 0;
