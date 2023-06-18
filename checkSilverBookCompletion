@@ -12,4 +12,5 @@ int checkSilverBookCompletion(const SilverBook& silverBook) {
         }
     }
     return 150;
+    silverBook.if_complete = true;
 }
