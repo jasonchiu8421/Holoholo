@@ -1,0 +1,63 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+class Shop {
+public:
+    struct Item {
+        std::string name;
+        int price;
+    };
+
+    Shop() {
+        // Add some sample items to the shop
+        addItem("Skin A", 100, "Skin");
+        addItem("Skin B", 200, "Skin");
+        addItem("Skin C", 300, "Skin");
+        addItem("Face A", 50, "Face");
+        addItem("Face B", 75, "Face");
+        addItem("Cloth A", 150, "Cloth");
+        addItem("Cloth B", 250, "Cloth");
+    }
+
+    void addItem(const std::string& name, int price, const std::string& category) {
+        m_items[category].push_back({ name, price });
+    }
+
+    bool buyItem(const std::string& itemName, int& skinTokens) {
+        for (const auto& categoryPair : m_items) {
+            const auto& category = categoryPair.first;
+            const auto& items = categoryPair.second;
+            for (const auto& item : items) {
+                if (item.name == itemName) {
+                    if (skinTokens >= item.price) {
+                        skinTokens -= item.price;
+                        std::cout << "You bought " << item.name << " (" << category << ") for " << item.price << " Skin Tokens.\n";
+                        return true;
+                    } else {
+                        std::cout << "You don't have enough Skin Tokens to buy " << item.name << " (" << category << ") (price: " << item.price << ").\n";
+                        return false;
+                    }
+                }
+            }
+        }
+        std::cout << "Item not found: " << itemName << "\n";
+        return false;
+    }
+
+    void printItems() const {
+        std::cout << "Shop Items:\n";
+        for (const auto& categoryPair : m_items) {
+            const auto& category = categoryPair.first;
+            const auto& items = categoryPair.second;
+            std::cout << "- " << category << ":\n";
+            for (const auto& item : items) {
+                std::cout << "  - " << item.name << " (" << item.price << " Skin Tokens)\n";
+            }
+        }
+    }
+
+private:
+    std::map<std::string, std::vector<Item>> m_items;
+};
