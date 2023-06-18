@@ -1,0 +1,16 @@
+//return smount of Holocoins awarded
+
+int unlockSilverCheckpoint(SilverCheckpoint silverCheckpoint, string photo_file) {
+    if (!silverCheckpoint.getIf_unlocked()) {
+        std::vector<cv::KeyPoint> photo_keypoints;
+        cv::Mat photo_descriptors;
+        process_user_photo(photo_file, photo_keypoints, photo_descriptors);
+        std::string model_file = "model.pcd";
+        float match_threshold = 0.1;
+        if (compare_with_3d_model(photo_keypoints, photo_descriptors, model_file, match_threshold)) {
+            silverCheckpoint.setIf_unlocked(true);
+            return 10;
+        }
+        return 0;
+    }
+}
