@@ -72,24 +72,6 @@ public:
         return false;
     }
 
-    bool buyVirtualItem(std::string memberId, std::string itemName) {
-        if (!isMember(memberId)) {
-            return false;
-        }
-        for (auto it = m_virtualItems.begin(); it != m_virtualItems.end(); ++it) {
-            if (it->getName() == itemName) {
-                int cost = it->getCost();
-                if (m_memberBalances[memberId] >= cost) {
-                    m_memberBalances[memberId] -= cost;
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
-
 
     Role getMemberRole(std::string memberId) const {
         if (m_memberRoles.count(memberId) == 0) {
@@ -112,10 +94,7 @@ private:
     std::string m_name;
     std::string m_creatorId;
     std::vector<std::string> m_memberIds;
-    std::unordered_map<std::string, int> m_memberBalances;
     std::unordered_map<std::string, Role> m_memberRoles;
-    int m_goldBalance;
-    std::vector<VirtualItem> m_virtualItems;
 };
 
 class GuildSystem {
