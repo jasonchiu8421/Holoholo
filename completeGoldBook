@@ -13,6 +13,6 @@ bool completeGoldBook(const GoldBook& goldBook) {
             }
         }
         return true;
-        goldBook.if_complete = true;
+        goldBook.setIf_complete(true);
     }
 }
