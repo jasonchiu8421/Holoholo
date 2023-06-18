@@ -1,2 +1,48 @@
 //Hung Hom Book: Lux Theatr, Kwun Yam Temple, Hutchison Park, Hung Hom Ferry Pier, Hong Kong Coliseum, Hong Kong Science Museum & Hong Kong Museum of History, The Hong Kong Polytechnic University, Hung Hom Shopping Centre, Gingko House O Bakery
 
+void createHungHomBook() {
+    // create a GoldBook object with ID 1 and name "Hung Hom Book"
+    GoldBook hungHomBook(1, "Hung Hom Book");
+
+    // create a GoldCheckpoint object for Lux Theatre
+    GoldCheckpoint luxTheatre("Lux Theatre", false, 114.1865, 22.3122, 1, "luxtheatre.jpg", hungHomBook); 
+    hungHomBook.addCheckpoint(luxTheatre);
+
+    // create a GoldCheckpoint object for Kwun Yam Temple
+    GoldCheckpoint kwunYamTemple("Kwun Yam Temple", false, 114.1895, 22.3124, 2, "kwunyamtemple.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(kwunYamTemple);
+
+    // create a GoldCheckpoint object for Hutchison Park
+    GoldCheckpoint hutchisonPark("Hutchison Park", false, 114.1876, 22.3106, 3, "hutchisonpark.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hutchisonPark);
+
+    // create a GoldCheckpoint object for Hung Hom Ferry Pier
+    GoldCheckpoint hungHomFerryPier("Hung Hom Ferry Pier", false, 114.1848, 22.3027, 4, "hungHomFerryPier.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hungHomFerryPier);
+
+    // create a GoldCheckpoint object for Hong Kong Coliseum
+    GoldCheckpoint hongKongColiseum("Hong Kong Coliseum", false, 114.1824, 22.3033, 5, "hongkongcoliseum.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hongKongColiseum);
+    
+    // create a GoldCheckpoint object for Hong Kong Science Museum
+    GoldCheckpoint hongKongScienceMuseum("Hong Kong Science Museum", false, 114.1749, 22.2986, 6, "hongkongsciencemuseum.jpg", hungHomBook); 
+    hungHomBook.addCheckpoint(hongKongScienceMuseum);
+
+    // create a GoldCheckpoint object for Hong Kong Museum of History
+    GoldCheckpoint hongKongMuseumOfHistory("Hong Kong Museum of History", false, 114.1776, 22.2964, 7, "hongkongmuseumofhistory.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hongKongMuseumOfHistory);
+
+    // create a GoldCheckpoint object for The Hong Kong Polytechnic University
+    GoldCheckpoint hongKongPolyU("The Hong Kong Polytechnic University", false, 114.1841, 22.3048, 8, "hongkongpolyu.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hongKongPolyU);
+
+    // create a GoldCheckpoint object for Hung Hom Shopping Centre
+    GoldCheckpoint hungHomShoppingCentre("Hung Hom Shopping Centre", false, 114.1875, 22.3042, 9, "hunghomshoppingcentre.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(hungHomShoppingCentre);
+
+    // create a GoldCheckpoint object for Gingko House O Bakery
+    GoldCheckpoint gingkoHouseOBakery("Gingko House O Bakery", false, 114.1906, 22.3127, 10, "gingkohouseobakery.jpg", hungHomBook);
+    hungHomBook.addCheckpoint(gingkoHouseOBakery);
+    
+    return 0;
+}
