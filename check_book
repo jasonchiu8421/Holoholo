@@ -1,13 +1,15 @@
+//Should be silver book instead
+
 #include <iostream>
 #include <string>
 #include "GoldBook.h"
 #include "GoldCheckpoint.h"
 
-bool allUnlocked(const GoldBook& goldBook) {
+int check_book(const GoldBook& goldBook) {
     for (const auto& checkpoint : goldBook.getCheckpoints()) {
         if (!checkpoint.getIfUnlocked()) {
-            return false;
+            return 0;
         }
     }
-    return true;
+    return 150;
 }
