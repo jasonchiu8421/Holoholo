@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+class GuildShop {
+public:
+    struct Item {
+        std::string name;
+        int price;
+    };
+
+    GuildShop() {
+        // Add some sample items to the shop
+        addItem("Chair", 50);
+        addItem("Table", 100);
+        addItem("Couch", 150);
+        addItem("Lamp", 25);
+    }
+
+    void addItem(const std::string& name, int price) {
+        m_items.push_back({ name, price });
+    }
+
+    bool buyItem(const std::string& itemName, int& holoCoins) {
+        for (const auto& item : m_items) {
+            if (item.name == itemName) {
+                if (holoCoins >= item.price) {
+                    holoCoins -= item.price;
+                    std::cout << "You bought " << item.name << " for " << item.price << " Holo Coins.\n";
+                    return true;
+                } else {
+                    std::cout << "You don't have enough Holo Coins to buy " << item.name << " (price: " << item.price << ").\n";
+                    return false;
+                }
+            }
+        }
+        std::cout << "Item not found: " << itemName << "\n";
+        return false;
+    }
+
+    void printItems() const {
+        std::cout << "Guild Shop Items:\n";
+        for (const auto& item : m_items) {
+            std::cout << "  - " << item.name << " (" << item.price << " Holo Coins)\n";
+        }
+    }
+
+private:
+    std::vector<Item> m_items;
+};
