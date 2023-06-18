@@ -1,15 +1,15 @@
-//should be silver checkpoint instead, return smount of Holocoins awarded
+//return smount of Skin Tokens awarded
 
-int check_checkpoint(GoldCheckpoint name, string photo_file) {
-    if (!name.if_unlocked) {
+int unlockGoldCheckpoint(GoldCheckpoint goldCheckpoint, string photo_file) {
+    if (!goldCheckpoint.getIf_unlocked()) {
         std::vector<cv::KeyPoint> photo_keypoints;
         cv::Mat photo_descriptors;
         process_user_photo(photo_file, photo_keypoints, photo_descriptors);
         std::string model_file = "model.pcd";
         float match_threshold = 0.1;
         if (compare_with_3d_model(photo_keypoints, photo_descriptors, model_file, match_threshold)) {
-            name.if_unlocked = true;
-            return 10;
+            goldCheckpoint.setIf_unlocked(true);
+            return 50;
         }
         return 0;
     }
