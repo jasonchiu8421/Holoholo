@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Item {
+public:
+    Item(const std::string& name, int price)
+        : m_name(name), m_price(price) {}
+
+    const std::string& getName() const { return m_name; }
+    int getPrice() const { return m_price; }
+
+private:
+    std::string m_name;
+    int m_price;
+};
+
+class Backpack {
+public:
+    bool addItem(const Item& item) {
+        if (m_items.size() < m_maxCapacity) {
+            m_items.push_back(item);
+            return true;
+        } else {
+            std::cout << "Backpack is full.\n";
+            return false;
+        }
+    }
+
+    void printItems() const {
+        std::cout << "Backpack Items:\n";
+        for (const auto& item : m_items) {
+            std::cout << "  - " << item.getName() << " (" << item.getPrice() << " coins)\n";
+        }
+    }
+
+private:
+    std::vector<Item> m_items;
+    const int m_maxCapacity = 10;
+};
