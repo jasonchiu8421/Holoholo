@@ -1,0 +1,28 @@
+import java.util.ArrayList;
+
+class Item {
+    String name;
+    int price;
+}
+
+class Backpack {
+    private ArrayList<Item> items = new ArrayList<Item>();
+    private final int maxCapacity = 10;
+
+    public boolean addItem(Item item) {
+        if (items.size() < maxCapacity) {
+            items.add(item);
+            return true;
+        } else {
+            System.out.println("Backpack is full!");
+            return false;
+        }
+    }
+
+    public void printItems() {
+        System.out.println("Backpack Items:");
+        for (Item item : items) {
+            System.out.println("  - " + item.name + " (" + item.price + " coins)");
+        }
+    }
+} 
